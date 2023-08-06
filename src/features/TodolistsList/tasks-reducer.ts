@@ -64,19 +64,22 @@ const task = state[action.payload.task.todoListId]
 },
         setTask : (state, action: PayloadAction<{tasks: Array<TaskType>, todolistId: string}>)=>{
             state[action.payload.todolistId] = action.payload.tasks
+        },
+        deleteTasks: (state)=> {
+            return state = {}
         }
     },
     extraReducers: (builder)=> {
-        builder.addCase(todolistsAction.addTodolist,(state,action)=>{
-            state[action.payload.todolist.id]= []
-        } )
+        builder.addCase(todolistsAction.addTodolist, (state, action) => {
+            state[action.payload.todolist.id] = []
+        })
             .addCase(todolistsAction.removeTodolist, (state, action) => {
                 delete state[action.payload.id]
             }).addCase(todolistsAction.setTodolists, (state, action) => {
-              action.payload.todolists.forEach((el)=> {
-                 state[el.id]= []
-              })
+            action.payload.todolists.forEach((el) => {
+                state[el.id] = []
             })
+        })
     }
 
 })

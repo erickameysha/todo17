@@ -4,6 +4,8 @@ import {authAPI, LoginParamsType} from '../../api/todolists-api'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../../app/store";
+import {todolistsAction} from "../TodolistsList/todolists-reducer";
+import {tasksAction} from "../TodolistsList/tasks-reducer";
 
 const initialState: InitialStateType = {
     isLoggedIn: false
@@ -58,6 +60,8 @@ export const logoutTC = ():AppThunk => (dispatch) => {
             if (res.data.resultCode === 0) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn:false}))
                 dispatch(setAppStatusAC('succeeded'))
+                dispatch(todolistsAction.deleteTodlist())
+                dispatch(tasksAction.deleteTasks())
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -70,7 +74,7 @@ export const logoutTC = ():AppThunk => (dispatch) => {
 // types
 
 // type ActionsType = ReturnType<typeof setIsLoggedInAC>
-type InitialStateType = {
+export type InitialStateType = {
     isLoggedIn: boolean
 }
 
